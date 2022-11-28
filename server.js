@@ -13,9 +13,19 @@ app.use(express.json()); //get income data in the req.body
 //mongoDB connection
 import { connectDB } from "./src/config/dbConfig.js";
 connectDB();
+// routers
+import userRouter from "./src/routers/userRouter.js";
+app.use("/api/v1/user", userRouter);
 
 app.use("*", (req, res) => {
   res.json({ message: "you are in the wrong place, yo go back!" });
+});
+app.use((error, req, res, next) => {
+  const code = error.code || 500;
+  res.status(code).json({
+    status: "error",
+    message: error.message,
+  });
 });
 app.listen(PORT, (error) => {
   error
