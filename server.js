@@ -1,5 +1,6 @@
 import express from "express";
 import morgan from "morgan";
+import cors from "cors";
 
 const app = express();
 const PORT = process.env.PORT || 8000;
@@ -7,7 +8,7 @@ const PORT = process.env.PORT || 8000;
 //middlewares
 app.use(morgan("dev")); // logs all the incoming req information
 //app.use(helmet()) // setting default security headers to protect some attacks
-//app.router(cors()) // allow cross origin resources
+app.use(cors()); // allow cross origin resourcesa
 app.use(express.json()); //get income data in the req.body
 
 //mongoDB connection
@@ -15,8 +16,8 @@ import { connectDB } from "./src/config/dbConfig.js";
 connectDB();
 // routers
 import userRouter from "./src/routers/userRouter.js";
-app.use("/api/v1/user", userRouter);
 
+app.use("api/v1/user", userRouter);
 app.use("*", (req, res) => {
   res.json({ message: "you are in the wrong place, yo go back!" });
 });

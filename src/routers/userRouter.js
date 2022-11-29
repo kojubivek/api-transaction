@@ -1,5 +1,6 @@
 import express from "express";
-import { insertUser } from "../model/user/UserModel.js";
+import { insertUser, getUser } from "../model/user/UserModel.js";
+
 const router = express.Router();
 
 //create user router
@@ -16,15 +17,26 @@ router.post("/", async (req, res, next) => {
     }
     res.json({
       status: "error",
-      message:
-        "unable to crate userUser created successfully, yo may login now",
+      message: "unable to create user. User already Created, yo may login now",
     });
   } catch (error) {
     if (error.message.includes("E11000 duplicate key error collection")) {
       error.code = 200;
-      return (error.message = "dulication email");
+      error.message = "dulication email";
     }
     next(error);
+  }
+});
+
+router.get("/", async (req, res, next) => {
+  try {
+    const user = await getUser();
+    console.log(user);
+  } catch (error) {
+    res.json({
+      status: "error",
+      message: error.message,
+    });
   }
 });
 
