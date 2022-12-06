@@ -4,7 +4,7 @@ import {
   insertTrans,
 } from "../model/transaction/TransactionModel.js";
 
-const router = express();
+const router = express.Router();
 
 router.get("/", async (req, res, next) => {
   try {

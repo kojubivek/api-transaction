@@ -20,7 +20,8 @@ import userRouter from "./src/routers/userRouter.js";
 app.use("/api/v1/user", userRouter);
 
 import transRouter from "./src/routers/transRouter.js";
-app.use("/api/v1/transaction", transRouter);
+import { isAuth } from "./src/middleware/authmiddleware.js";
+app.use("/api/v1/transaction", isAuth, transRouter);
 
 app.use("*", (req, res) => {
   res.json({ message: "you are in the wrong place, yo go back!" });
