@@ -7,8 +7,8 @@ export const insertUser = (obj) => {
 
 //login user
 
-export const getUser = () => {
-  return UserSchema.find();
+export const findUser = (obj) => {
+  return UserSchema.findOne(obj);
 };
 
 //delete user

@@ -1,5 +1,5 @@
 import express from "express";
-import { insertUser, getUser } from "../model/user/UserModel.js";
+import { insertUser, findUser } from "../model/user/UserModel.js";
 
 const router = express.Router();
 
@@ -28,11 +28,23 @@ router.post("/", async (req, res, next) => {
   }
 });
 
-router.get("/", async (req, res, next) => {
+router.post("/login", async (req, res, next) => {
   try {
-    const user = await getUser();
-    console.log(user);
+    const user = await findUser(req.body);
+    console.log("first");
+    user?._id
+      ? res.json({
+          status: "success",
+          message: "login successfull",
+          name: user.name,
+          _id: user._id,
+        })
+      : res.json({
+          status: "error",
+          message: "Error! Invalid login details",
+        });
   } catch (error) {
+    next(error);
     res.json({
       status: "error",
       message: error.message,
