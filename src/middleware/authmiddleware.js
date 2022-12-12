@@ -1,6 +1,6 @@
 import { findUser } from "../model/user/UserModel.js";
 
-export const isAuth = async (res, req, next) => {
+export const isAuth = async (req, res, next) => {
   //if valid user thenreturn true otherwise false...
   try {
     const { authorization } = req.headers;

@@ -1,5 +1,6 @@
 import express from "express";
 import {
+  deleteManyTrans,
   getAllUserTransactions,
   insertTrans,
 } from "../model/transaction/TransactionModel.js";
@@ -13,6 +14,7 @@ router.get("/", async (req, res, next) => {
     res.json({
       status: "success",
       message: "get method to do",
+      trans,
     });
   } catch (error) {
     next(error);
@@ -39,12 +41,21 @@ router.post("/", async (req, res, next) => {
 });
 
 //delete
-router.delete("/", (req, res, next) => {
+router.delete("/", async (req, res, next) => {
   try {
-    res.json({
-      status: "success",
-      message: "delete method to do",
-    });
+    const { authorization } = req.headers;
+    console.log(authorization);
+    const result = await deleteManyTrans(req.body, authorization);
+    console.log(result);
+    result?.deletedCount
+      ? res.json({
+          status: "success",
+          message: result.deletedCount + "delete method to do",
+        })
+      : res.json({
+          status: "error",
+          message: "Nothign Happened",
+        });
   } catch (error) {
     next(error);
   }

@@ -27,6 +27,7 @@ app.use("*", (req, res) => {
   res.json({ message: "you are in the wrong place, yo go back!" });
 });
 app.use((error, req, res, next) => {
+  console.log(error);
   const code = error.code || 500;
   res.status(code).json({
     status: "error",

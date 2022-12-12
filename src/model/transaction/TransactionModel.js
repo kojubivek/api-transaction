@@ -19,3 +19,10 @@ export const updateTransaction = (obj) => {
 export const deleteTransaction = (obj) => {
   return deleteTransaction.deleteOne(obj);
 };
+
+export const deleteManyTrans = (ids, userId) => {
+  return TransactionSchema.deleteMany({
+    _id: { $in: ids },
+    userId,
+  });
+};
