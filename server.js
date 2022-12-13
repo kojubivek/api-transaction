@@ -30,6 +30,9 @@ app.use("/api/v1/transaction", isAuth, transRouter);
 app.get("/dashboard", (req, res) => {
   res.redirect("/");
 });
+app.get("/register", (req, res) => {
+  res.redirect("/");
+});
 app.use("/", (req, res) => {
   res.sendFile(path.join(__dirname), "/build/index.html");
 });
@@ -37,9 +40,9 @@ app.use("*", (req, res) => {
   res.json({ message: "you are in the wrong place, yo go back!" });
 });
 app.use((error, req, res, next) => {
-  console.log(error);
-  const code = error.code || 500;
-  res.status(code).json({
+  // console.log(error);
+  // const code = error.code || 500;
+  res.json({
     status: "error",
     message: error.message,
   });
